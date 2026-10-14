@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+{% block title %}Sign Up | COVID-19 Analytics{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <section class="auth-card">
+        <div class="auth-icon">🦠</div>
+        <h1>Create Account</h1>
+        <p class="muted">Register to access the COVID-19 dashboard.</p>
+
+        <form method="POST" action="{{ url_for('signup') }}">
+            <label for="username">Username</label>
+            <input
+                id="username"
+                name="username"
+                type="text"
+                placeholder="Choose a username"
+                required
+            >
+
+            <label for="email">Email Address</label>
+            <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="At least 8 characters"
+                minlength="8"
+                required
+            >
+
+            <button class="btn btn-primary btn-full" type="submit">
+                Create Account
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Log in</a>
+        </p>
+    </section>
+</div>
+{% endblock %}

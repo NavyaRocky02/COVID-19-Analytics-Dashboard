@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}COVID-19 Analytics{% endblock %}</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --background: #f4f7fb;
+            --text: #172033;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            padding: 16px 5%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            font-size: 21px;
+            font-weight: 750;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .navbar form {
+            margin: 0;
+        }
+
+        /* Main page */
+        .page-container {
+            width: min(1200px, 94%);
+            margin: 36px auto;
+        }
+
+        /* Dashboard cards */
+        .stat-card {
+            height: 100%;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid #e8edf5;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(25, 50, 90, 0.04);
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            margin-top: 10px;
+            font-size: clamp(24px, 3vw, 32px);
+            font-weight: 750;
+            overflow-wrap: anywhere;
+        }
+
+        .panel {
+            margin-top: 24px;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid #e8edf5;
+            border-radius: 16px;
+        }
+
+        /* Signup and login layout */
+        .auth-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 80vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .auth-card {
+            position: relative;
+            z-index: 2;
+            width: min(520px, 100%);
+            padding: 32px;
+            background: #ffffff;
+            border: 1px solid #e8edf5;
+            border-radius: 20px;
+            box-shadow: 0 12px 45px rgba(25, 50, 90, 0.09);
+        }
+
+        .auth-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .auth-card h1 {
+            margin-bottom: 12px;
+            font-size: clamp(28px, 5vw, 40px);
+        }
+
+        .muted {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        /* Form labels */
+        .auth-card label {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: 600;
+        }
+
+        /* Corrected form input styles */
+        .auth-card input {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #172033;
+            font-size: 16px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 3;
+            pointer-events: auto;
+            user-select: text;
+        }
+
+        .auth-card input::placeholder {
+            color: #737b87;
+            opacity: 1;
+        }
+
+        .auth-card input:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 1px;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-full {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            margin-top: 8px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .auth-card button {
+            position: relative;
+            z-index: 3;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .auth-footer {
+            margin-top: 20px;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+        }
+
+        /* Flash messages */
+        .flash-message {
+            margin: 18px auto;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: #e8f1ff;
+            color: #1747a6;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 14px 4%;
+                gap: 12px;
+            }
+
+            .navbar-brand {
+                font-size: 17px;
+            }
+
+            .page-container {
+                margin-top: 22px;
+            }
+
+            .stat-card,
+            .panel,
+            .auth-card {
+                padding: 18px;
+            }
+
+            .auth-wrapper {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            🦠 COVID-19 Analytics
+        </a>
+
+        {% if session.get('user_id') %}
+            <form method="POST" action="{{ url_for('logout') }}">
+                <button
+                    class="btn btn-outline-primary"
+                    type="submit"
+                >
+                    Log Out
+                </button>
+            </form>
+        {% else %}
+            <a
+                class="btn btn-outline-primary"
+                href="{{ url_for('login') }}"
+            >
+                Log In
+            </a>
+        {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="container">
+                <div
+                    class="flash-message"
+                    role="status"
+                >
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</body>
+</html>

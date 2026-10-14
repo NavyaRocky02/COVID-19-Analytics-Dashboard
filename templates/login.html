@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login | COVID-19 Analytics{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <section class="auth-card">
+        <div class="auth-icon">🦠</div>
+        <h1>Welcome Back</h1>
+        <p class="muted">Log in to explore COVID-19 insights.</p>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <label for="email">Email Address</label>
+            <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button class="btn btn-primary btn-full" type="submit">
+                Log In
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Don't have an account?
+            <a href="{{ url_for('signup') }}">Sign up</a>
+        </p>
+    </section>
+</div>
+{% endblock %}

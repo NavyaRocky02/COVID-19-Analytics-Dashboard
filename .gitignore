@@ -1,0 +1,39 @@
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Local databases and instance data
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Editor and operating system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+# Local model backups
+covid_model_backup.pkl
+covid_model_candidate_8week.pkl
+
+# Local utility scripts
+reset_password.py
+
+# Local test scripts
+test_model.py
+# Keep the local dataset private
+data/
